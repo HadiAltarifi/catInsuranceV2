@@ -9,11 +9,7 @@
 
 package openapi
 
-
-
-
 type CustomerReq struct {
-
 	Email string `json:"email"`
 
 	FirstName string `json:"firstName"`
@@ -40,16 +36,16 @@ type CustomerReq struct {
 // AssertCustomerReqRequired checks if the required fields are not zero-ed
 func AssertCustomerReqRequired(obj CustomerReq) error {
 	elements := map[string]interface{}{
-		"email": obj.Email,
-		"firstName": obj.FirstName,
-		"lastName": obj.LastName,
-		"familyStatus": obj.FamilyStatus,
-		"birthDate": obj.BirthDate,
+		"email":                obj.Email,
+		"firstName":            obj.FirstName,
+		"lastName":             obj.LastName,
+		"familyStatus":         obj.FamilyStatus,
+		"birthDate":            obj.BirthDate,
 		"socialSecurityNumber": obj.SocialSecurityNumber,
-		"taxId": obj.TaxId,
-		"jobStatus": obj.JobStatus,
-		"address": obj.Address,
-		"bankDetails": obj.BankDetails,
+		"taxId":                obj.TaxId,
+		"jobStatus":            obj.JobStatus,
+		"address":              obj.Address,
+		"bankDetails":          obj.BankDetails,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {

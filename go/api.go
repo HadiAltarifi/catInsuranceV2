@@ -14,21 +14,20 @@ import (
 	"net/http"
 )
 
-
-
 // ContractAPIRouter defines the required methods for binding the api requests to a responses for the ContractAPI
 // The ContractAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a ContractAPIServicer to perform the required actions, then write the service results to the http response.
-type ContractAPIRouter interface { 
+type ContractAPIRouter interface {
 	CalculateRate(http.ResponseWriter, *http.Request)
 	CreateContract(http.ResponseWriter, *http.Request)
 	GetContract(http.ResponseWriter, *http.Request)
 	GetCustomerContracts(http.ResponseWriter, *http.Request)
 }
+
 // CustomerAPIRouter defines the required methods for binding the api requests to a responses for the CustomerAPI
 // The CustomerAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a CustomerAPIServicer to perform the required actions, then write the service results to the http response.
-type CustomerAPIRouter interface { 
+type CustomerAPIRouter interface {
 	CreateCustomer(http.ResponseWriter, *http.Request)
 	DeleteCustomer(http.ResponseWriter, *http.Request)
 	GetCustomer(http.ResponseWriter, *http.Request)
@@ -37,48 +36,45 @@ type CustomerAPIRouter interface {
 	SearchCustomers(http.ResponseWriter, *http.Request)
 	UpdateCustomer(http.ResponseWriter, *http.Request)
 }
+
 // EmployeeAPIRouter defines the required methods for binding the api requests to a responses for the EmployeeAPI
 // The EmployeeAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a EmployeeAPIServicer to perform the required actions, then write the service results to the http response.
-type EmployeeAPIRouter interface { 
+type EmployeeAPIRouter interface {
 	CreateEmployee(http.ResponseWriter, *http.Request)
 	GetEmployee(http.ResponseWriter, *http.Request)
 	UpdateEmployee(http.ResponseWriter, *http.Request)
 }
 
-
 // ContractAPIServicer defines the api actions for the ContractAPI service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
-type ContractAPIServicer interface { 
+type ContractAPIServicer interface {
 	CalculateRate(context.Context, RateCalculationReq) (ImplResponse, error)
 	CreateContract(context.Context, ContractReq) (ImplResponse, error)
 	GetContract(context.Context, string) (ImplResponse, error)
 	GetCustomerContracts(context.Context, string, int32, int32) (ImplResponse, error)
 }
 
-
 // CustomerAPIServicer defines the api actions for the CustomerAPI service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
-type CustomerAPIServicer interface { 
+type CustomerAPIServicer interface {
 	CreateCustomer(context.Context, CustomerReq) (ImplResponse, error)
 	DeleteCustomer(context.Context, string) (ImplResponse, error)
 	GetCustomer(context.Context, string) (ImplResponse, error)
-	GetCustomerContracts(context.Context, string, int32, int32) (ImplResponse, error)
 	GetCustomers(context.Context, int32, int32) (ImplResponse, error)
 	SearchCustomers(context.Context, string, int32, int32) (ImplResponse, error)
 	UpdateCustomer(context.Context, string, CustomerReq) (ImplResponse, error)
 }
 
-
 // EmployeeAPIServicer defines the api actions for the EmployeeAPI service
 // This interface intended to stay up to date with the openapi yaml used to generate it,
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
-type EmployeeAPIServicer interface { 
+type EmployeeAPIServicer interface {
 	CreateEmployee(context.Context, EmployeeReq) (ImplResponse, error)
 	GetEmployee(context.Context, string) (ImplResponse, error)
 	UpdateEmployee(context.Context, EmployeeReq) (ImplResponse, error)

@@ -9,15 +9,11 @@
 
 package openapi
 
-
 import (
 	"errors"
 )
 
-
-
 type Address struct {
-
 	Street string `json:"street"`
 
 	HouseNumber string `json:"houseNumber"`
@@ -32,11 +28,10 @@ type Address struct {
 // AssertAddressRequired checks if the required fields are not zero-ed
 func AssertAddressRequired(obj Address) error {
 	elements := map[string]interface{}{
-		"street": obj.Street,
+		"street":      obj.Street,
 		"houseNumber": obj.HouseNumber,
-		"zipCode": obj.ZipCode,
-		"city": obj.City,
-		"id": obj.Id,
+		"zipCode":     obj.ZipCode,
+		"city":        obj.City,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {

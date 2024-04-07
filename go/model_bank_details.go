@@ -9,11 +9,7 @@
 
 package openapi
 
-
-
-
 type BankDetails struct {
-
 	Iban string `json:"iban"`
 
 	Bic string `json:"bic"`
@@ -27,9 +23,8 @@ type BankDetails struct {
 func AssertBankDetailsRequired(obj BankDetails) error {
 	elements := map[string]interface{}{
 		"iban": obj.Iban,
-		"bic": obj.Bic,
+		"bic":  obj.Bic,
 		"name": obj.Name,
-		"id": obj.Id,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {

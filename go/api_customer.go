@@ -19,7 +19,7 @@ import (
 
 // CustomerAPIController binds http requests to an api service and writes the service results to the http response
 type CustomerAPIController struct {
-	service CustomerAPIServicer
+	service      CustomerAPIServicer
 	errorHandler ErrorHandler
 }
 
@@ -50,6 +50,11 @@ func NewCustomerAPIController(s CustomerAPIServicer, opts ...CustomerAPIOption) 
 // Routes returns all the api routes for the CustomerAPIController
 func (c *CustomerAPIController) Routes() Routes {
 	return Routes{
+		"SearchCustomers": Route{
+			strings.ToUpper("Get"),
+			"/v1/customers/search",
+			c.SearchCustomers,
+		},
 		"CreateCustomer": Route{
 			strings.ToUpper("Post"),
 			"/v1/customers",
@@ -65,20 +70,10 @@ func (c *CustomerAPIController) Routes() Routes {
 			"/v1/customers/{customerId}",
 			c.GetCustomer,
 		},
-		"GetCustomerContracts": Route{
-			strings.ToUpper("Get"),
-			"/v1/customers/{customerId}/contracts",
-			c.GetCustomerContracts,
-		},
 		"GetCustomers": Route{
 			strings.ToUpper("Get"),
 			"/v1/customers",
 			c.GetCustomers,
-		},
-		"SearchCustomers": Route{
-			strings.ToUpper("Get"),
-			"/v1/customers/search",
-			c.SearchCustomers,
 		},
 		"UpdateCustomer": Route{
 			strings.ToUpper("Patch"),
@@ -142,61 +137,6 @@ func (c *CustomerAPIController) GetCustomer(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	result, err := c.service.GetCustomer(r.Context(), customerIdParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-}
-
-// GetCustomerContracts - Get customer contracts
-func (c *CustomerAPIController) GetCustomerContracts(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	query, err := parseQuery(r.URL.RawQuery)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	customerIdParam := params["customerId"]
-	if customerIdParam == "" {
-		c.errorHandler(w, r, &RequiredError{"customerId"}, nil)
-		return
-	}
-	var pageParam int32
-	if query.Has("page") {
-		param, err := parseNumericParameter[int32](
-			query.Get("page"),
-			WithParse[int32](parseInt32),
-			WithMinimum[int32](1),
-			WithMaximum[int32](100),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		pageParam = param
-	} else {
-	}
-	var pageSizeParam int32
-	if query.Has("pageSize") {
-		param, err := parseNumericParameter[int32](
-			query.Get("pageSize"),
-			WithParse[int32](parseInt32),
-			WithMinimum[int32](1),
-			WithMaximum[int32](100),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		pageSizeParam = param
-	} else {
-	}
-	result, err := c.service.GetCustomerContracts(r.Context(), customerIdParam, pageParam, pageSizeParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
