@@ -66,6 +66,7 @@ func connectToDB() (*sql.DB, error) {
 	return db, nil
 }
 
+// Get Customer
 func HandleCustomersCustomerIdGet(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	customerID := req.PathParameters["customerId"]
 
@@ -131,6 +132,7 @@ func HandleCustomersCustomerIdGet(ctx context.Context, req events.APIGatewayProx
 	}, nil
 }
 
+// get customers
 func HandleCustomersGet(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	page, pageSize, err := parseQueryParams(req.QueryStringParameters)
 	if err != nil || page < 1{
@@ -221,6 +223,7 @@ func HandleCustomersGet(ctx context.Context, req events.APIGatewayProxyRequest) 
 	}, nil
 }
 
+// create customer
 func HandleCustomersPost(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	var newCustomerReq CustomerReq
 	if err := json.Unmarshal([]byte(req.Body), &newCustomerReq); err != nil {
@@ -334,6 +337,7 @@ func HandleCustomersPost(ctx context.Context, req events.APIGatewayProxyRequest)
 	}, nil
 }
 
+// delete customer
 func HandleCustomersCustomerIdDelete(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// Extract customer ID from request path parameters
 	customerID := request.PathParameters["customerId"]
@@ -437,6 +441,7 @@ func HandleCustomersCustomerIdDelete(ctx context.Context, request events.APIGate
 	}, nil
 }
 
+// search customers
 func HandleCustomersSearchGet(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// Parse query parameters
 	queryParams := request.QueryStringParameters
@@ -568,6 +573,7 @@ func HandleCustomersSearchGet(ctx context.Context, request events.APIGatewayProx
 	}, nil
 }
 
+// update customer
 func HandleCustomersCustomerIdPatch(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// Extract customerId from path parameters
 	customerID := request.PathParameters["customerId"]
